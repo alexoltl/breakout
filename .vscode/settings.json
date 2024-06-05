@@ -1,0 +1,22 @@
+{
+	"files.exclude": {
+		"**/.git": true,
+		"**/.svn": true,
+		"**/.hg": true,
+		"**/CVS": true,
+		"**/.DS_Store": true,
+		"**/*.o": true,
+		"**/*.exe": true,
+	},
+	"C_Cpp.default.compilerPath": "C:/raylib/w64devkit/bin/gcc.exe",
+	"files.associations": {
+		"array": "cpp",
+		"*.tcc": "cpp",
+		"deque": "cpp",
+		"string": "cpp",
+		"unordered_map": "cpp",
+		"vector": "cpp",
+		"string_view": "cpp",
+		"initializer_list": "cpp"
+	}
+}
