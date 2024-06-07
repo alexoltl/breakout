@@ -10,5 +10,6 @@ extern const int ballSpeedY;
 extern const int ballSpeedX;
 
 extern int score;
+extern bool gameEnded;
 
 #endif // GLOBALS_H

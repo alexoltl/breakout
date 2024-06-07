@@ -26,19 +26,28 @@ Vector2 updateBallPosition(int &ballSpeedX, int &ballSpeedY, int ballRadius, Rec
         ballSpeedY *= -1;
     }
 
+    // Ball collision with player (does not work)
+    // if (CheckCollisionCircleRec(ball, ballRadius, player)) {
+    //     cout << "true" << endl;
+    //     ball.y -= 5;
+    //     ballSpeedY *= -1;
+    // }
+
     // Ball collision with player
-    if (CheckCollisionCircleRec(ball, ballRadius, player)) {
-        ball.y -= 5;
-        ballSpeedY *= -1;
+    if (player.x - player.width/2 <= ball.x && player.x + player.width/2 >= ball.x) {
+        if (ball.y >= screenHeight - 50 - player.height - ballRadius && screenHeight - 50 <= ball.y) {
+            ball.y -= 5;
+            ballSpeedY *= -1;
+        }
     }
 
     // Ball collision with blocks
     for (size_t i = 0; i < blocks.size(); i++) {
         Rectangle blockCollision = { blocks[i].x, blocks[i].y, 80, 20 };
         if (CheckCollisionCircleRec(ball, ballRadius, blockCollision)) {
+            increaseScore(blockCollision.y);
             blocks.erase(blocks.begin() + i);
             ballSpeedY *= -1;
-            score += 10;
             ball.y += 5;
         }
     }

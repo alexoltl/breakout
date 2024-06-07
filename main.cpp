@@ -9,10 +9,9 @@ using namespace std;
 const int screenWidth = 800;
 const int screenHeight = 600;
 const int ballRadius = 10;
-const int ballSpeedY = 4;
-const int ballSpeedX = 4;
+const int ballSpeedY = 6;
+const int ballSpeedX = 6;
 
-int score = 0;
 int colorCounter = 0;
 Color blockColor = WHITE;
 
@@ -29,33 +28,48 @@ int main()
     int ballSpeedY = ::ballSpeedY;
     Vector2 ball = {screenWidth / 2, screenHeight / 2};
 
+    bool gameEnded = false;
+
     while (!WindowShouldClose())
     {
         // update
         playerMovement(player);
         ball = updateBallPosition(ballSpeedX, ballSpeedY, ballRadius, player, blocks);
+        int score = updateScore(gameEnded);
+        if (blocks.size() == 0) gameEnded = true;
+        if (ball.y >= screenHeight) gameEnded = true;
 
         // draw
         BeginDrawing();
             ClearBackground(BLACK);
-            DrawCircleV(ball, ballRadius, WHITE);
+             if (!gameEnded) {
+                DrawCircleV(ball, ballRadius, WHITE);
 
-            for (Vector2 blockPosition : blocks)
-            {
-                block.x = blockPosition.x;
-                block.y = blockPosition.y;
+                for (Vector2 blockPosition : blocks)
+                {
+                    block.x = blockPosition.x;
+                    block.y = blockPosition.y;
 
-                if (blockPosition.y == 20) blockColor = RED;
-                if (blockPosition.y == 70) blockColor = BLUE;
-                if (blockPosition.y == 120) blockColor = GREEN;
-                if (blockPosition.y == 170) blockColor = WHITE;
+                    if (blockPosition.y == 20)
+                        blockColor = RED;
+                    if (blockPosition.y == 70)
+                        blockColor = BLUE;
+                    if (blockPosition.y == 120)
+                        blockColor = GREEN;
+                    if (blockPosition.y == 170)
+                        blockColor = WHITE;
 
-                DrawRectanglePro(block, {0, 0}, 0, blockColor);
+                    DrawRectanglePro(block, {0, 0}, 0, blockColor);
+                }
+
+                DrawText(TextFormat("Score: %d", score), 30, 10, 24, ORANGE);
+                DrawRectanglePro(player, {player.width / 2, player.height / 2}, 0, WHITE);
+            } else if (gameEnded) {
+                ClearBackground(BLACK);
+                ballSpeedX = 0;
+                ballSpeedY = 0;
+                DrawText(TextFormat("Score: %d", score), screenWidth / 2, screenHeight / 2, 24, ORANGE);
             }
-
-            DrawText(TextFormat("Score: ", score), 30, 10, 24, ORANGE);
-            DrawText(to_string(player.x).c_str(), 30, 100, 24, ORANGE);
-            DrawRectanglePro(player, {player.width / 2, player.height / 2}, 0, WHITE);
         EndDrawing();
     }
 
